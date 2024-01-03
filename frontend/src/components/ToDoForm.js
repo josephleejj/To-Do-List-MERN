@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { UseToDoContext } from "../hooks/UseToDoContext"
-
+import { useAuthContext } from "../hooks/useAuthContext"
 
 export const ToDoForm = () => {
     const {dispatch} = UseToDoContext() // todos is a global variable, dispatch is the function that allow us to make changes to the global variable
@@ -10,16 +10,23 @@ export const ToDoForm = () => {
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([]) // empty fields from controller
 
+    const {user} = useAuthContext()
 
     const addTask = async (e) => {
         e.preventDefault()
+
+        if (!user) {
+            setError('You must be logged in')
+            return
+        }
 
         const toDo = {task, deadline}
 
         const response = await fetch('/api/todo', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${user.token}`
             },
             body: JSON.stringify(toDo)
         })

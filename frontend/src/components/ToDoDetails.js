@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { UseToDoContext } from "../hooks/UseToDoContext"
 import { format } from 'date-fns'; 
+import { useAuthContext } from "../hooks/useAuthContext";
 // import DatePicker from 'react-datepicker';
 // import 'react-datepicker/dist/react-datepicker.css';
 
@@ -13,6 +14,8 @@ export const ToDoDetails = ({ toDo }) => {
 
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([]) // empty fields from controller
+
+    const {user} = useAuthContext()
 
 
     const handleEditClick = () => {
@@ -62,11 +65,17 @@ export const ToDoDetails = ({ toDo }) => {
     // }
     const handleSaveClick = async (e) => {
         e.preventDefault();
+
+        if (!user) {
+          setError('You must be logged in')
+          return
+      }
       
         const response = await fetch('api/todo/' + toDo._id, {
           method: 'PATCH',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${user.token}`
           },
           body: JSON.stringify({ task: editedTask, deadline: editedDeadline })
         });
@@ -90,8 +99,14 @@ export const ToDoDetails = ({ toDo }) => {
 
 
     const deleteToDo = async () => {
+      if (!user) {
+        return
+    }
         const response = await fetch('api/todo/' + toDo._id, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${user.token}`
+            }
         })
 
         const json = await response.json()
@@ -109,29 +124,34 @@ export const ToDoDetails = ({ toDo }) => {
     }
 
     const toggleComplete = async () => {
-        const response = await fetch('api/todo/' + toDo._id, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                task: toDo.task,
-                deadline: toDo.deadline,
-                done: !toDo.done, // Toggle the value of 'done'
-            })
-        })
+      if (!user) {
+        return
+    }
+      const response = await fetch('api/todo/' + toDo._id, {
+          method: 'PATCH',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${user.token}`
 
-        const json = await response.json()
+          },
+          body: JSON.stringify({
+              task: toDo.task,
+              deadline: toDo.deadline,
+              done: !toDo.done, // Toggle the value of 'done'
+          })
+      })
 
-        if (!response.ok) {
-            console.log(json.error)
-            
-        }
-        
-        if (response.ok) {
-            dispatch({type:'EDIT_TODO', payload:json})
-            console.log('To-Do Edited', json)
-        }
+      const json = await response.json()
+
+      if (!response.ok) {
+          console.log(json.error)
+          
+      }
+      
+      if (response.ok) {
+          dispatch({type:'EDIT_TODO', payload:json})
+          console.log('To-Do Edited', json)
+      }
 
     }
 

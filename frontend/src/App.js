@@ -17,18 +17,18 @@ function App() {
           <Routes>
             <Route 
                 path="/" 
-                // element={user ? <Home /> : <Navigate to="/login" />} 
-                element={<Home />}
+                element={user ? <Home /> : <Navigate to="/login" />} 
+                // element={<Home />}
               />
               <Route 
                 path="/login" 
-                // element={!user ? <Login /> : <Navigate to="/" />} 
-                element={<Login />}
+                element={!user ? <Login /> : <Navigate to="/" />} 
+                // element={<Login />}
               />
               <Route 
                 path="/signup" 
-                // element={!user ? <Signup /> : <Navigate to="/" />} 
-                element={<Signup />}
+                element={!user ? <Signup /> : <Navigate to="/" />} 
+                // element={<Signup />}
               />
           </Routes>
         </div>

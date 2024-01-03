@@ -25,7 +25,7 @@ export const Home = () => {
         if (user) {
             getToDos()
         }
-    }, [dispatch]) // because dispatch function is not delcared in useEffect, so we need to declare dependencies, 
+    }, [dispatch, user]) // because dispatch function is not delcared in useEffect, so we need to declare dependencies, 
                     // we cant create dispatch in UseEffect because UseEffect is only triggered when first rendered.
 
     // console.log(toDos)

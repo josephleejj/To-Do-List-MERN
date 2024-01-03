@@ -2,7 +2,12 @@ const express = require('express')
 
 const { getToDos, getToDo, addToDo, deleteToDo, updateToDo } = require('../controllers/toDoController')
 
+const requireAuth = require('../middleware/requireAuth')
+
 const router = express.Router()
+
+// require auth for all todo routes
+router.use(requireAuth)
 
 // get all todos (GET)
 router.get('/', getToDos)

@@ -1,8 +1,10 @@
 import { useState } from "react"
 import { UseToDoContext } from "../hooks/UseToDoContext"
 
+
 export const ToDoForm = () => {
     const {dispatch} = UseToDoContext() // todos is a global variable, dispatch is the function that allow us to make changes to the global variable
+
     const [task, setTask] = useState('')
     const [deadline, setDeadline] = useState('')
     const [error, setError] = useState(null)
@@ -34,6 +36,7 @@ export const ToDoForm = () => {
             setTask('')
             setDeadline('')
             setError(null) // set to null in case there is an error previously
+            setEmptyFields([])
             dispatch({type:'CREATE_TODO', payload:json})
             console.log('New To-Do Added', json)
         }

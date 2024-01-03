@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { UseToDoContext } from "../hooks/UseToDoContext"
 import { format } from 'date-fns'; 
+// import DatePicker from 'react-datepicker';
+// import 'react-datepicker/dist/react-datepicker.css';
 
 
 export const ToDoDetails = ({ toDo }) => {
@@ -8,6 +10,7 @@ export const ToDoDetails = ({ toDo }) => {
     const [isEditing, setIsEditing] = useState(false)
     const [editedTask, setEditedTask] = useState(toDo.task)
     const [editedDeadline, setEditedDeadline] = useState(toDo.deadline)
+
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([]) // empty fields from controller
 
@@ -112,6 +115,8 @@ export const ToDoDetails = ({ toDo }) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
+                task: toDo.task,
+                deadline: toDo.deadline,
                 done: !toDo.done, // Toggle the value of 'done'
             })
         })
@@ -149,10 +154,17 @@ export const ToDoDetails = ({ toDo }) => {
                   Deadline:
                   <input
                     type="date"
-                    value={editedDeadline}
+                    value={new Date(editedDeadline).toISOString().split('T')[0]}
                     onChange={(e) => setEditedDeadline(e.target.value)}
                     className={emptyFields.includes('deadline') ? 'error' : ''}
                   />
+                  {/* <DatePicker
+                    type="date"
+                    value={new Date(editedDeadline).toISOString().split('T')[0]}
+                    dateFormat={"yyyy-MM-dd"}
+                    onChange={(e) => setEditedDeadline(new Date(e.target.value))}
+                    className={emptyFields.includes('deadline') ? 'error' : ''}
+                  /> */}
                 </label>
                 <button>Save</button>
                 <button type="button" onClick={handleCancelClick}>
@@ -167,12 +179,12 @@ export const ToDoDetails = ({ toDo }) => {
                 <h4>{toDo.task}</h4>
                 <p>
                   <strong>Deadline: </strong>
-                  {format(new Date(toDo.deadline), 'MMM d, yyyy')}
+                  {format(new Date(toDo.deadline), 'dd MMM, yyyy')}
                 </p>
-                <p>
+                {/* <p>
                   <strong>Done: </strong>
                   {toDo.done ? 'Completed' : 'Not Completed'}
-                </p>
+                </p> */}
               </div>
             )}
           </div>

@@ -181,10 +181,10 @@ export const ToDoDetails = ({ toDo }) => {
                   <strong>Deadline: </strong>
                   {format(new Date(toDo.deadline), 'dd MMM, yyyy')}
                 </p>
-                {/* <p>
-                  <strong>Done: </strong>
+                <p>
+                  <strong>Status: </strong>
                   {toDo.done ? 'Completed' : 'Not Completed'}
-                </p> */}
+                </p>
               </div>
             )}
           </div>

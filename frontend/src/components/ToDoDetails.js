@@ -63,7 +63,7 @@ export const ToDoDetails = ({ toDo }) => {
     const handleSaveClick = async (e) => {
         e.preventDefault();
       
-        const response = await fetch('api/todos/' + toDo._id, {
+        const response = await fetch('api/todo/' + toDo._id, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json'
@@ -90,7 +90,7 @@ export const ToDoDetails = ({ toDo }) => {
 
 
     const deleteToDo = async () => {
-        const response = await fetch('api/todos/' + toDo._id, {
+        const response = await fetch('api/todo/' + toDo._id, {
             method: 'DELETE'
         })
 
@@ -109,7 +109,7 @@ export const ToDoDetails = ({ toDo }) => {
     }
 
     const toggleComplete = async () => {
-        const response = await fetch('api/todos/' + toDo._id, {
+        const response = await fetch('api/todo/' + toDo._id, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'

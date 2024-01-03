@@ -8,4 +8,4 @@ router.post('/login', loginUser) // login route
 
 router.post('/signup', signupUser) // signup route
 
-module.exports = router // export routerdddrddd
+module.exports = router // export router

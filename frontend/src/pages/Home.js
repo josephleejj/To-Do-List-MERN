@@ -9,7 +9,7 @@ export const Home = () => {
 
     useEffect(() => {
         const getToDos = async () => {
-            const response = await fetch('/api/todos') // hitting the api call in server.js [app.get('/api/todods')]
+            const response = await fetch('/api/todo') // hitting the api call in server.js [app.get('/api/todods')]
             const json = await response.json()
             if (response.ok) {
                 // setToDos(json)

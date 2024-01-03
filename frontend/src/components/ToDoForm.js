@@ -14,7 +14,7 @@ export const ToDoForm = () => {
 
         const toDo = {task, deadline}
 
-        const response = await fetch('/api/todos', {
+        const response = await fetch('/api/todo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

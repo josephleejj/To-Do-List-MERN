@@ -18,7 +18,7 @@ export const ToDoReducer = (state, action) => {
                 toDos: state.toDos.filter(toDo=> toDo._id !== action.payload._id)
             }
         case 'EDIT_TODO':
-            console.log('here', action.payload._id, action.payload.done, action.payload.task);
+            // console.log('here', action.payload._id, action.payload.done, action.payload.task);
             return {
                 toDos: state.toDos.map(toDo =>
                     toDo._id === action.payload._id 

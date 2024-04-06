@@ -3,7 +3,8 @@ const toDoModel = require('../models/toDoModel')
 
 // get all todos
 const getToDos = async (req, res) => {
-    const toDos = await toDoModel.find({}).sort({deadline:-1})
+    const user_id = req.user_id
+    const toDos = await toDoModel.find({user_id}).sort({deadline:-1})
     res.status(200).json(toDos)
 }
 
@@ -27,7 +28,8 @@ const getToDo = async (req, res) => {
 
 
 // add todo
-const addToDo = async (req, res) => {    
+const addToDo = async (req, res) => {
+    console.log(" controller adTodo")    
     const {task, deadline} = req.body
     let emptyFields = []
 
@@ -39,12 +41,16 @@ const addToDo = async (req, res) => {
     }
     if (emptyFields.length > 0) {
         return res.status(400).json({error: 'Please fill in all the fields', emptyFields}) 
-    }
-    
+    }   
+
+
     try {
+        // return res.status(400).json({error: req.user})
+        const user_id = req.user._id
         const toDo = await toDoModel.create({
             task: task,
-            deadline: deadline
+            deadline: deadline,
+            user_id: user_id
         })
         res.status(200).json(toDo)
 
@@ -75,6 +81,7 @@ const deleteToDo = async (req, res) => {
 // update a todo
 const updateToDo = async (req, res) => {
     const {task, deadline} = req.body    
+    
 
     let emptyFields = []
     if (!task) {

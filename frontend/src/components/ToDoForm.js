@@ -20,7 +20,11 @@ export const ToDoForm = () => {
             return
         }
 
+        // const user_id = user
         const toDo = {task, deadline}
+        // console.log("todo: ", JSON.stringify(toDo))
+        
+        // console.log("user", user)
 
         const response = await fetch('/api/todo', {
             method: 'POST',
@@ -30,11 +34,15 @@ export const ToDoForm = () => {
             },
             body: JSON.stringify(toDo)
         })
+        // console.log("IM HERE")
 
         const json = await response.json()
 
+        console.log("IM HERE(2)")
         if (!response.ok) {
             setError(json.error)
+            console.log("IM HERE (3)", json)
+
             setEmptyFields(json.emptyFields)
             
         }
@@ -58,7 +66,7 @@ export const ToDoForm = () => {
             type="text"
             onChange={(e) => setTask(e.target.value)}
             value={task}
-            className={emptyFields.includes('task') ? 'error' : ''}
+            // className={emptyFields.includes('task') ? 'error' : ''}
             />
 
             <label>Deadline:</label>
@@ -66,7 +74,7 @@ export const ToDoForm = () => {
             type="date"
             onChange={(e) => setDeadline(e.target.value)}
             value={deadline}
-            className={emptyFields.includes('deadline') ? 'error' : ''}
+            // className={emptyFields.includes('deadline') ? 'error' : ''}
             />
 
             <button>Add To-Do</button>

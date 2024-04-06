@@ -2,6 +2,7 @@ import { useState } from "react";
 import { UseToDoContext } from "../hooks/UseToDoContext"
 import { format } from 'date-fns'; 
 import { useAuthContext } from "../hooks/useAuthContext";
+import dayjs from 'dayjs';
 // import DatePicker from 'react-datepicker';
 // import 'react-datepicker/dist/react-datepicker.css';
 
@@ -156,6 +157,9 @@ export const ToDoDetails = ({ toDo }) => {
     }
 
 
+    // const formattedDeadline = dayjs(editedDeadline).format('YYYY-MM-DD');
+    // console.log('editedDeadline:', editedDeadline);
+    // console.log('formattedDeadline:', formattedDeadline);
     return (
         <div className="todo-details">
           <div className={toDo.done ? 'strikethrough' : ''}>
@@ -174,17 +178,14 @@ export const ToDoDetails = ({ toDo }) => {
                   Deadline:
                   <input
                     type="date"
-                    value={new Date(editedDeadline).toISOString().split('T')[0]}
-                    onChange={(e) => setEditedDeadline(e.target.value)}
+                    // value={formattedDeadline}
+                    value={dayjs(editedDeadline).format('YYYY-MM-DD')}
+                    onChange={(e) => {
+                      // console.log("onChange: ", e.target.value);
+                      // setEditedDeadline(e.target.value);}}
+                      setEditedDeadline(new Date(e.target.value));}}
                     className={emptyFields.includes('deadline') ? 'error' : ''}
                   />
-                  {/* <DatePicker
-                    type="date"
-                    value={new Date(editedDeadline).toISOString().split('T')[0]}
-                    dateFormat={"yyyy-MM-dd"}
-                    onChange={(e) => setEditedDeadline(new Date(e.target.value))}
-                    className={emptyFields.includes('deadline') ? 'error' : ''}
-                  /> */}
                 </label>
                 <button>Save</button>
                 <button type="button" onClick={handleCancelClick}>
